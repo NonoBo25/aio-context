@@ -30,7 +30,7 @@ async def unless_event[AsyncCTX: AbstractAsyncContextManager](async_context: Asy
             enter_context_task = tg.create_task(stack.enter_async_context(async_context))
             event_wait_task = tg.create_task(event.wait())
 
-            done, pending = asyncio.wait([enter_context_task, event_wait_task], return_when=asyncio.FIRST_COMPLETED)
+            done, pending = await asyncio.wait([enter_context_task, event_wait_task], return_when=asyncio.FIRST_COMPLETED)
 
             for task in pending:
                 task.cancel()
